@@ -33,6 +33,11 @@ export function destroyScroll(): void {
   lenis = null
 }
 
+/** The running Lenis instance (null under reduced motion / before init). */
+export function getLenis(): Lenis | null {
+  return lenis
+}
+
 /** Freezes page scrolling while an overlay (the mobile menu) is open. */
 export function lockScroll(): void {
   lenis?.stop()

@@ -100,11 +100,29 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 8px;
+  gap: 16px;
   animation: intro-mark-in 1s 1.4s both;
 }
 
-.intro__hint-arrow {
+/* Scroll cue: the scroll_mouse.lottie animation (72 × 72 artboard) */
+.scroll-mouse {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 46px;
+  height: 46px;
+  margin: -6px 0;
+}
+
+.scroll-mouse__anim,
+.scroll-mouse__anim svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* Shown until the animation has loaded */
+.scroll-mouse__arrow {
   font-size: 14px;
   animation: intro-hint-bob 1.8s ease-in-out infinite;
 }

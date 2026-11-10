@@ -1,6 +1,7 @@
 import { createContext, useContext } from 'react'
 
-/** False while the intro is still pulling the page in; the hero waits for it. */
+/** Whether the hero may play its entrance. The intro keeps it true so the page's
+ *  content is already in place when the curtain brings it down. */
 export const HeroReadyContext = createContext(true)
 
 export function useHeroReady(): boolean {

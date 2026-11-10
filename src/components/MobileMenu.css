@@ -155,12 +155,6 @@
   }
 }
 
-/* Page scrolling is frozen while the menu is open */
-html.is-scroll-locked,
-html.is-scroll-locked body {
-  overflow: hidden;
-}
-
 @media (prefers-reduced-motion: reduce) {
   .menu-sheet__close {
     transition: none;

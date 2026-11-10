@@ -4,13 +4,15 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import logoSvg from '../assets/figma/logo-brand.svg?raw'
 import { getDeviceCapability } from '../motion/device'
 import { sound } from '../audio/soundEngine'
+import { getLenis } from '../motion/scroll'
 import { HeroReadyContext } from './introState'
+import { ScrollMouse } from './ScrollMouse'
 import './Intro.css'
 
 gsap.registerPlugin(ScrollTrigger)
 
 /** Scroll distance of the pinned intro, in viewport heights. */
-const RUNWAY_VH = 2.6
+const RUNWAY_VH = 3.2
 
 // Logo path indices (Figma export): 0–7 "MIND MOOD", 8–16 "BRAIN FOOD".
 const MIND_MOOD = [0, 1, 2, 3, 4, 5, 6, 7]
@@ -19,11 +21,20 @@ const BRAIN_FOOD = [8, 9, 10, 11, 12, 13, 14, 15, 16]
 // Timeline (fractions of the pinned scroll)
 const LIFT_END = 0.12 // letters lift off their arcs onto the orbit
 const TRAVEL_START = 0.04
-const TRAVEL_END = 0.9
+const TRAVEL_END = 0.84
 const REVOLUTIONS = 1.15
 const HOOK_START = 0.44 // the thread drops from the tail of "MOOD"
-const PULL_START = 0.55 // ...and starts pulling the page down
-const ARRIVED = 0.97
+const PULL_START = 0.5 // ...and starts pulling the page down
+const PULL_END = 0.84 // the page is fully in place...
+const ARRIVED = PULL_END
+// ...and then holds perfectly still for the rest of the pin, so the scrub's
+// catch-up never shows as a wobble when the pin lets go
+const REST = 0.93 // where the entrance comes to rest (inside the hold)
+const SNAP_FROM = 0.3 // stopping past here completes the pull on its own
+// The still beat at rest: released once wheel / touch input has been quiet
+const HOLD_MIN_MS = 450
+const HOLD_QUIET_MS = 220
+const HOLD_MAX_MS = 1800
 
 type Letter = {
   el: SVGPathElement
@@ -59,9 +70,12 @@ export function Intro({ children }: { children: ReactNode }) {
   const logoRef = useRef<HTMLDivElement>(null)
   const threadRef = useRef<SVGPathElement>(null)
   const hookRef = useRef<SVGCircleElement>(null)
-  const hintRef = useRef<HTMLParagraphElement>(null)
+  const hintRef = useRef<HTMLDivElement>(null)
   const [enabled] = useState(() => !getDeviceCapability().isReducedMotion)
-  const [heroReady, setHeroReady] = useState(!enabled)
+  // The page's content is in place before the curtain is pulled, so the
+  // orange page and everything on it come down together as one piece (its
+  // entrance plays while it is still hidden above the stage).
+  const heroReady = true
 
   useLayoutEffect(() => {
     const wrap = wrapRef.current
@@ -172,7 +186,7 @@ export function Intro({ children }: { children: ReactNode }) {
       const vh = window.innerHeight
       const vw = window.innerWidth
       const heroH = hero.offsetHeight
-      const pull = easeInOut(clamp01((p - PULL_START) / (1 - PULL_START)))
+      const pull = easeInOut(clamp01((p - PULL_START) / (PULL_END - PULL_START)))
       const heroY = -heroH * (1 - pull)
       // Curtain sound follows exactly how far the page moved this frame
       const pulled = Math.abs(pull - lastPull) * heroH
@@ -197,7 +211,7 @@ export function Intro({ children }: { children: ReactNode }) {
       hook.style.opacity = drop >= 1 ? '1' : '0'
 
       // The stage gives way as the page settles over it
-      stage.style.setProperty('--stage-fade', `${1 - clamp01((p - 0.86) / 0.12)}`)
+      stage.style.setProperty('--stage-fade', `${1 - clamp01((p - (PULL_END - 0.08)) / 0.1)}`)
       hint.style.opacity = `${1 - clamp01(p / 0.06)}`
 
       // Sounds, exactly on the visual beats
@@ -210,14 +224,73 @@ export function Intro({ children }: { children: ReactNode }) {
       if (!arrived && p >= ARRIVED) {
         arrived = true
         sound.curtainSettle() // the drape comes to rest
-        setHeroReady(true)
       } else if (arrived && p < ARRIVED - 0.05) {
         arrived = false
       }
     }
 
-    const state = { p: 0 }
     let trigger: ScrollTrigger | undefined
+    // ---- Landing: the hero settles and stays put, then scrolling resumes ----
+    let gated = false
+    let releaseTimer = 0
+    let cleanupHold: (() => void) | null = null
+    const restY = (self: ScrollTrigger) => Math.round(self.start + (self.end - self.start) * REST)
+    const land = (self: ScrollTrigger, duration: number) => {
+      gated = true
+      const lenis = getLenis()
+      const target = restY(self)
+      if (!lenis) {
+        window.scrollTo({ top: target, behavior: 'smooth' })
+        return
+      }
+      window.clearTimeout(releaseTimer)
+      lenis.scrollTo(target, {
+        duration,
+        force: true,
+        lock: true,
+        easing: (t: number) => 1 - Math.pow(1 - t, 3),
+        onComplete: () => {
+          // A short still beat: trackpad / touch momentum dies out here
+          lenis.stop()
+          // Touch momentum is native scrolling, so it needs overflow frozen too
+          // (not on desktop, where hiding the scrollbar would shift the layout)
+          if (window.matchMedia('(pointer: coarse)').matches) {
+            document.documentElement.classList.add('is-scroll-locked')
+          }
+          // Hand control back once the input has gone quiet (momentum spent),
+          // after at least a short beat and never later than HOLD_MAX_MS
+          const began = performance.now()
+          const release = () => {
+            window.removeEventListener('wheel', onInput)
+            window.removeEventListener('touchmove', onInput)
+            window.removeEventListener('touchstart', onInput)
+            document.documentElement.classList.remove('is-scroll-locked')
+            lenis.start()
+          }
+          const schedule = () => {
+            const elapsed = performance.now() - began
+            const wait = Math.max(HOLD_QUIET_MS, HOLD_MIN_MS - elapsed)
+            window.clearTimeout(releaseTimer)
+            releaseTimer = window.setTimeout(release, Math.min(wait, HOLD_MAX_MS - elapsed))
+          }
+          const onInput = () => schedule()
+          window.addEventListener('wheel', onInput, { passive: true })
+          window.addEventListener('touchmove', onInput, { passive: true })
+          window.addEventListener('touchstart', onInput, { passive: true })
+          cleanupHold = release
+          schedule()
+        },
+      })
+    }
+    // Stopping part-way through the pull completes it smoothly
+    const onScrollEnd = () => {
+      if (!trigger || gated) return
+      const p = trigger.progress
+      if (trigger.direction === 1 && p > SNAP_FROM && p < ARRIVED) land(trigger, 1.1)
+    }
+    ScrollTrigger.addEventListener('scrollEnd', onScrollEnd)
+
+    const state = { p: 0 }
     const ctx = gsap.context(() => {
       gsap.to(state, {
         p: 1,
@@ -232,6 +305,17 @@ export function Intro({ children }: { children: ReactNode }) {
           pinSpacing: true,
           scrub: 0.7,
           refreshPriority: 10,
+          onUpdate: (self) => {
+            // Re-arm the landing once the visitor is back inside the pull
+            if (self.progress < ARRIVED - 0.12) gated = false
+            // Arriving while scrolling down: glide to the resting point and
+            // swallow any leftover wheel / touch momentum there
+            if (!gated && self.direction === 1 && self.progress >= ARRIVED - 0.02) {
+              const overshoot = window.scrollY - self.end
+              if (overshoot < window.innerHeight * 0.5) land(self, 0.75)
+              else gated = true // flung far past: don't drag them back
+            }
+          },
           onRefresh: (self) => {
             trigger = self
             page?.style.setProperty('--intro-space', `${Math.round(self.end - self.start)}px`)
@@ -239,6 +323,7 @@ export function Intro({ children }: { children: ReactNode }) {
         },
       })
     }, wrap)
+
 
     // Measure everything with the page in its resting place
     const onRefreshInit = () => gsap.set(hero, { y: 0 })
@@ -249,7 +334,11 @@ export function Intro({ children }: { children: ReactNode }) {
 
     // Keyboard users focusing into the page skip straight past the intro
     const onFocusIn = () => {
-      if (trigger && trigger.progress < 1) window.scrollTo({ top: trigger.end + 1 })
+      if (trigger && trigger.progress < REST) {
+        gated = true
+        getLenis()?.scrollTo(restY(trigger), { immediate: true, force: true })
+        if (!getLenis()) window.scrollTo({ top: restY(trigger) })
+      }
     }
     hero.addEventListener('focusin', onFocusIn)
     // "Back to top" links land on the page, not on the intro
@@ -258,11 +347,17 @@ export function Intro({ children }: { children: ReactNode }) {
       if (!link || !trigger) return
       event.preventDefault()
       event.stopPropagation()
-      window.scrollTo({ top: trigger.end + 1, behavior: 'smooth' })
+      gated = true
+      const lenis = getLenis()
+      if (lenis) lenis.scrollTo(restY(trigger), { duration: 1.4, force: true })
+      else window.scrollTo({ top: restY(trigger), behavior: 'smooth' })
     }
     document.addEventListener('click', onClick, true)
 
     return () => {
+      ScrollTrigger.removeEventListener('scrollEnd', onScrollEnd)
+      window.clearTimeout(releaseTimer)
+      cleanupHold?.()
       ScrollTrigger.removeEventListener('refreshInit', onRefreshInit)
       ScrollTrigger.removeEventListener('refresh', onRefresh)
       hero.removeEventListener('focusin', onFocusIn)
@@ -289,12 +384,12 @@ export function Intro({ children }: { children: ReactNode }) {
               <path ref={threadRef} className="intro__thread" />
               <circle ref={hookRef} className="intro__hook-dot" r="4" />
             </svg>
-            <p className="intro__hint" ref={hintRef}>
+            <div className="intro__hint" ref={hintRef}>
               <span className="intro__hint-inner">
-                <span>SCROLL TO BEGIN</span>
-                <span className="intro__hint-arrow">↓</span>
+                <span>SCROLL DOWN</span>
+                <ScrollMouse className="intro__hint-mouse" />
               </span>
-            </p>
+            </div>
           </div>
         )}
         {children}
