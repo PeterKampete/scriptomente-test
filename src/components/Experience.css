@@ -1,0 +1,327 @@
+/* ---------- Experience / timeline (desktop) ---------- */
+.experience {
+  position: relative;
+  min-height: 3125px;
+}
+
+/* Fixed-width canvas matching the Figma frame so entries stay on the thread */
+.experience__canvas {
+  position: relative;
+  width: var(--canvas);
+  min-height: inherit;
+  margin-left: calc(50% - var(--canvas) / 2);
+}
+
+.experience__thread {
+  z-index: 0;
+}
+
+.experience__thread--desktop {
+  top: -214.5px;
+  left: -203px;
+}
+
+.experience__thread--tablet,
+.experience__thread--mobile {
+  display: none;
+}
+
+.experience__intro {
+  position: relative;
+  z-index: 1;
+  width: 573px;
+  min-height: 453px;
+  margin-left: 219px;
+}
+
+.experience__heading {
+  font-family: var(--font-serif);
+  font-size: 48px;
+  font-weight: 400;
+  line-height: 64px;
+  color: var(--color-ink);
+}
+
+.experience__heading-accent {
+  font-style: italic;
+  color: var(--color-brand);
+}
+
+.experience__lead {
+  margin-top: 19px;
+  font-size: 22px;
+  font-variation-settings: 'opsz' 14;
+  line-height: 29px;
+  color: var(--color-ink);
+}
+
+.timeline {
+  position: relative;
+  z-index: 1;
+}
+
+.timeline-entry {
+  position: relative;
+  width: var(--d-w);
+  min-height: var(--d-h);
+  margin-left: var(--d-x);
+  color: var(--color-ink);
+}
+
+.timeline-entry--right {
+  text-align: right;
+}
+
+.timeline-entry__content {
+  display: flow-root;
+}
+
+.timeline-entry__toggle {
+  position: absolute;
+  top: var(--d-ty);
+  left: var(--d-tx);
+}
+
+.timeline-entry__title {
+  font-family: var(--font-serif);
+  font-size: 44px;
+  font-style: italic;
+  font-weight: 500;
+  letter-spacing: 0.07em;
+  line-height: 54px;
+  color: var(--color-brand);
+}
+
+.timeline-entry__meta {
+  margin-top: 15px;
+  font-size: 20px;
+  font-weight: 500;
+  font-variation-settings: 'opsz' 14;
+  letter-spacing: 0.07em;
+  line-height: 31px;
+}
+
+.timeline-entry__body {
+  max-width: var(--d-bw);
+  margin-top: 30px;
+  font-size: 18px;
+  font-variation-settings: 'opsz' 14;
+  line-height: 26px;
+}
+
+.timeline-entry--right .timeline-entry__body {
+  margin-left: auto;
+}
+
+/* Heading stays "unwritten" grey until the thread reaches the entry's toggle */
+.timeline-entry__title,
+.timeline-entry__meta {
+  transition: color 0.9s cubic-bezier(0.25, 0, 0, 1);
+}
+
+.timeline-entry.is-dormant .timeline-entry__title,
+.timeline-entry.is-dormant .timeline-entry__meta {
+  color: var(--color-dormant);
+}
+
+.timeline-entry--ogilvy .timeline-entry__body,
+.timeline-entry--ibm .timeline-entry__body {
+  font-size: 20px;
+}
+
+.timeline-entry--doha .timeline-entry__title {
+  font-size: 40px;
+}
+
+/* Desktop: Figma sets fixed text-box heights on some titles/dates; the 54px
+   line box is centred inside them, so the glyphs shift accordingly. */
+@media (min-width: 1200px) {
+  .timeline-entry__title {
+    white-space: nowrap;
+  }
+
+  .timeline-entry--right .timeline-entry__title {
+    margin-right: -3px;
+  }
+
+  .timeline-entry--monks .timeline-entry__title {
+    margin: -7px -3px -7px 0;
+  }
+
+  .timeline-entry--doha .timeline-entry__title {
+    margin: -7.5px 0;
+  }
+
+  .timeline-entry--ogilvy .timeline-entry__meta,
+  .timeline-entry--ibm .timeline-entry__meta {
+    line-height: 25px;
+  }
+
+  .timeline-entry--monks .timeline-entry__body {
+    margin-top: 27px;
+  }
+
+  .timeline-entry--tlgg .timeline-entry__body,
+  .timeline-entry--doha .timeline-entry__body {
+    margin-top: 28px;
+  }
+
+  .experience__heading {
+    margin-left: -3px;
+  }
+}
+
+/* ---------- Tablet ---------- */
+@media (max-width: 1199px) {
+  .experience {
+    min-height: 2676px;
+  }
+
+  .experience__thread--desktop {
+    display: none;
+  }
+
+  .experience__thread--tablet {
+    display: block;
+    top: -118px;
+    left: -41px;
+  }
+
+  .experience__intro {
+    width: 352px;
+    min-height: 405px;
+    margin-left: 53px;
+  }
+
+  .experience__heading {
+    font-size: 38px;
+    line-height: 64px;
+  }
+
+  .experience__lead {
+    margin-top: 8px;
+    font-size: 16px;
+    line-height: 21px;
+  }
+
+  .timeline-entry {
+    width: var(--t-w);
+    min-height: var(--t-h);
+    margin-left: var(--t-x);
+  }
+
+  .timeline-entry__toggle {
+    top: var(--t-ty);
+    left: var(--t-tx);
+  }
+
+  .timeline-entry__title {
+    margin-top: var(--t-dt);
+    font-size: 34px;
+    line-height: 40px;
+  }
+
+  .timeline-entry--right .timeline-entry__title {
+    margin-right: -2px;
+  }
+
+  .timeline-entry--ibm .timeline-entry__title {
+    font-size: 31px;
+    line-height: 36px;
+  }
+
+  .timeline-entry--doha .timeline-entry__title {
+    font-size: 30px;
+    line-height: 39px;
+  }
+
+  .timeline-entry__meta {
+    margin-top: calc(10px + var(--t-dm));
+    font-size: 16px;
+    line-height: 21px;
+  }
+
+  .timeline-entry__body,
+  .timeline-entry--ogilvy .timeline-entry__body,
+  .timeline-entry--ibm .timeline-entry__body {
+    max-width: var(--t-bw);
+    margin-top: calc(18px + var(--t-db));
+    font-size: 12px;
+    line-height: 19px;
+  }
+}
+
+/* ---------- Mobile ---------- */
+@media (max-width: 699px) {
+  .experience {
+    min-height: 2262px;
+  }
+
+  .experience__thread--tablet {
+    display: none;
+  }
+
+  .experience__thread--mobile {
+    display: block;
+    top: -63px;
+    left: -4px;
+  }
+
+  .experience__intro {
+    width: 269px;
+    min-height: 196px;
+    margin-left: 31px;
+  }
+
+  .experience__heading {
+    font-size: 30px;
+    line-height: 36px;
+  }
+
+  .experience__lead {
+    font-size: 13px;
+    line-height: 17px;
+  }
+
+  .timeline-entry {
+    width: var(--m-w);
+    min-height: var(--m-h);
+    margin-left: var(--m-x);
+  }
+
+  .timeline-entry__toggle {
+    top: var(--m-ty);
+    left: var(--m-tx);
+  }
+
+  .timeline-entry__title {
+    margin-top: var(--m-dt);
+    font-size: 27px;
+    line-height: 35px;
+  }
+
+  .timeline-entry--ibm .timeline-entry__title {
+    font-size: 23px;
+    line-height: 29px;
+  }
+
+  .timeline-entry--doha .timeline-entry__title {
+    font-size: 21px;
+    line-height: 29px;
+  }
+
+  .timeline-entry__meta {
+    margin-top: calc(6px + var(--m-dm));
+    font-size: 13px;
+    line-height: 17px;
+  }
+
+  .timeline-entry__body,
+  .timeline-entry--ogilvy .timeline-entry__body,
+  .timeline-entry--ibm .timeline-entry__body {
+    max-width: var(--m-bw);
+    margin-top: calc(10px + var(--m-db));
+    font-size: 9px;
+    line-height: 14px;
+  }
+}

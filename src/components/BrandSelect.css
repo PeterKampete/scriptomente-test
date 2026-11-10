@@ -1,0 +1,185 @@
+.brand-select {
+  position: relative;
+}
+
+/* Trigger keeps the Figma field look: 55px, 1px #877a67 border, 15px text */
+.brand-select__trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  height: 55px;
+  padding: 0 20px 0 17px;
+  border: 1px solid var(--color-field-border);
+  background: transparent;
+  color: var(--color-ink);
+  font-size: 15px;
+  font-variation-settings: 'opsz' 14;
+  text-align: left;
+  cursor: pointer;
+  transition: border-color 0.3s ease;
+}
+
+.brand-select__trigger.is-placeholder {
+  color: var(--color-placeholder);
+}
+
+.brand-select__trigger:hover,
+.brand-select--open .brand-select__trigger {
+  border-color: var(--color-brand);
+}
+
+.brand-select__trigger:focus-visible {
+  outline: 1px solid var(--color-brand);
+  outline-offset: 0;
+  border-color: var(--color-brand);
+}
+
+.brand-select__value {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.brand-select__chevron {
+  flex: none;
+  margin-left: 12px;
+  transition: transform 0.45s cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+.brand-select--open .brand-select__chevron {
+  transform: rotate(180deg);
+}
+
+/* Panel */
+.brand-select__panel {
+  position: absolute;
+  z-index: 30;
+  top: calc(100% + 8px);
+  right: 0;
+  left: 0;
+  max-height: 340px;
+  overflow: hidden;
+  border: 1px solid var(--color-brand);
+  background: #fbf6ef;
+  box-shadow: 0 28px 44px -26px rgba(75, 60, 39, 0.5);
+}
+
+/* The thread running down through each option's knot */
+.brand-select__thread {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 24.5px;
+  width: 1px;
+  background: var(--color-brand);
+  opacity: 0.55;
+  transform-origin: top;
+  pointer-events: none;
+}
+
+.brand-select__list {
+  max-height: 338px;
+  margin: 0;
+  padding: 6px 0;
+  overflow-y: auto;
+  outline: none;
+  overscroll-behavior: contain;
+}
+
+.brand-select__option {
+  position: relative;
+  z-index: 0;
+  display: grid;
+  grid-template-columns: 16px 34px 1fr;
+  align-items: center;
+  gap: 2px;
+  min-height: 48px;
+  padding: 0 18px 0 17px;
+  overflow: hidden;
+  color: var(--color-ink);
+  font-size: 15px;
+  font-variation-settings: 'opsz' 14;
+  cursor: pointer;
+  transition: color 320ms cubic-bezier(0.25, 0, 0, 1);
+}
+
+/* Official site fill sweep on the highlighted option */
+.brand-select__option::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: var(--color-brand);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 460ms cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+.brand-select__option.is-active {
+  color: var(--color-cream);
+}
+
+.brand-select__option.is-active::before {
+  transform: scaleX(1);
+}
+
+.brand-select__knot {
+  justify-self: center;
+  width: 7px;
+  height: 7px;
+  border: 1px solid var(--color-brand);
+  border-radius: 50%;
+  background: #fbf6ef;
+  transition:
+    background-color 300ms ease,
+    border-color 300ms ease,
+    transform 300ms ease;
+}
+
+.brand-select__option.is-selected .brand-select__knot {
+  background: var(--color-brand);
+  transform: scale(1.25);
+}
+
+.brand-select__option.is-active .brand-select__knot {
+  border-color: var(--color-cream);
+}
+
+.brand-select__option.is-active.is-selected .brand-select__knot {
+  background: var(--color-cream);
+}
+
+.brand-select__number {
+  font-family: var(--font-serif);
+  font-size: 15px;
+  font-style: italic;
+  color: var(--color-brand);
+  transition: color 320ms ease;
+}
+
+.brand-select__option.is-active .brand-select__number {
+  color: var(--color-cream);
+}
+
+.brand-select__option.is-selected .brand-select__label {
+  font-family: var(--font-serif);
+  font-size: 17px;
+  font-style: italic;
+}
+
+/* Figma mobile shows the field without the chevron */
+@media (max-width: 699px) {
+  .brand-select__chevron {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .brand-select__option,
+  .brand-select__option::before,
+  .brand-select__chevron,
+  .brand-select__knot {
+    transition: none;
+  }
+}

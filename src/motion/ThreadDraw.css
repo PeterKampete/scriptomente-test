@@ -1,0 +1,26 @@
+.thread-draw {
+  position: absolute;
+  pointer-events: none;
+  --draw: 0%;
+  --feather: 48px;
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    #000 calc(var(--draw) - var(--feather)),
+    transparent var(--draw)
+  );
+  mask-image: linear-gradient(
+    to bottom,
+    #000 calc(var(--draw) - var(--feather)),
+    transparent var(--draw)
+  );
+}
+
+.thread-draw img {
+  display: block;
+  max-width: none;
+}
+
+.thread-draw--static {
+  -webkit-mask-image: none;
+  mask-image: none;
+}

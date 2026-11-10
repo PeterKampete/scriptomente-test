@@ -1,0 +1,397 @@
+/* ---------- Services (desktop) ---------- */
+.services {
+  position: relative;
+  min-height: 1668px;
+  padding-top: 194px;
+}
+
+/* Red thread that continues out of the hero; the hero covers its first part */
+.services__thread {
+  z-index: 0;
+  top: -433.85px;
+  left: calc(50% - 720px - 30.25px);
+}
+
+.services__inner {
+  position: relative;
+  z-index: 1;
+  width: min(1189px, 100% - 80px);
+  margin: 0 auto;
+}
+
+.services__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 32px;
+  height: 98.52px;
+  padding-left: 1px;
+}
+
+.services__intro {
+  margin-top: 20.26px;
+  font-size: 22px;
+  font-variation-settings: 'opsz' 14;
+  line-height: 29px;
+  color: var(--color-ink);
+}
+
+.services__heading {
+  flex: none;
+  font-family: var(--font-serif);
+  /* Figma: cap tops at 0 and 51px, baselines 54px apart */
+  margin-top: -13.5px;
+  font-size: 48px;
+  font-weight: 400;
+  line-height: 55px;
+  text-align: right;
+  color: var(--color-ink);
+}
+
+.services__heading-line {
+  display: block;
+  white-space: nowrap;
+}
+
+.services__heading-line--accent {
+  font-style: italic;
+  color: var(--color-brand);
+}
+
+.services__list {
+  margin-top: 96px;
+  border-bottom: 1px solid var(--color-rule);
+}
+
+.service {
+  display: grid;
+  grid-template-columns: 92.5px minmax(0, 721px) minmax(0, 1fr) 35px;
+  align-content: start;
+  align-items: start;
+  padding: 45px 0 64px;
+  border-top: 1px solid var(--color-rule);
+  color: var(--color-ink);
+}
+
+.service__number {
+  margin-top: 6px;
+  font-family: var(--font-serif);
+  font-size: 22px;
+  font-style: italic;
+  line-height: 30px;
+  color: var(--color-brand);
+}
+
+.service__main {
+  max-width: 520px;
+  margin-top: 8px;
+}
+
+.service__title {
+  font-family: var(--font-serif);
+  font-size: 48px;
+  font-weight: 400;
+  line-height: 64px;
+}
+
+.service__description {
+  max-width: 505px;
+  margin-top: 10.5px;
+  font-size: 20px;
+  font-variation-settings: 'opsz' 14;
+  line-height: 26px;
+}
+
+.service__items {
+  margin-top: 14px;
+  font-size: 20px;
+  font-variation-settings: 'opsz' 14;
+  line-height: 41px;
+}
+
+.service__toggle {
+  justify-self: end;
+}
+
+/* Desktop: each row reproduces its own Figma geometry (see Services.tsx).
+   Offsets subtract the 1px rule and each text box's glyph inset. */
+@media (min-width: 1200px) {
+  .service {
+    grid-template-columns:
+      var(--row-cx)
+      minmax(0, calc(var(--row-lx) - var(--row-cx)))
+      minmax(0, 1fr)
+      35px;
+    height: var(--row-h);
+    padding: 0;
+  }
+
+  .service:last-child {
+    height: calc(var(--row-h) - 1px);
+  }
+
+  .service__number {
+    margin-top: calc(var(--row-num) - 12px);
+    margin-left: var(--row-nx);
+  }
+
+  .service__main {
+    margin-top: calc(var(--row-title) - 14.5px);
+    margin-left: -2px;
+  }
+
+  .service__description {
+    margin-top: 9.5px;
+  }
+
+  .service__items {
+    margin-top: calc(var(--row-list) - 13.5px);
+    margin-left: -2px;
+  }
+
+  .service__toggle {
+    margin-top: calc(var(--row-tog) - 1px);
+  }
+}
+
+/* Until the thread reaches the row's toggle its heading stays "unwritten" grey */
+.service__number,
+.service__title {
+  transition: color 0.9s cubic-bezier(0.25, 0, 0, 1);
+}
+
+.service.is-dormant .service__number,
+.service.is-dormant .service__title {
+  color: var(--color-dormant);
+}
+
+/* ---------- Tablet ---------- */
+@media (max-width: 1199px) {
+  .services {
+    min-height: 1017px;
+    padding-top: 162px;
+  }
+
+  .services__thread {
+    display: none;
+  }
+
+  .services__inner {
+    width: min(671px, 100% - 48px);
+  }
+
+  .services__header {
+    align-items: flex-start;
+    justify-content: center;
+    gap: 66px;
+    height: 88px;
+    padding-left: 0;
+  }
+
+  .services__intro {
+    width: 367px;
+    margin-top: 0;
+    font-size: 16px;
+    line-height: 21px;
+  }
+
+  .services__break {
+    display: none;
+  }
+
+  .services__heading {
+    width: 227px;
+    margin-top: 0;
+    font-size: 38px;
+    line-height: 40px;
+    text-align: left;
+    color: var(--color-ink-dark);
+  }
+
+  .services__list {
+    width: min(647px, 100%);
+    margin: 57px auto 0;
+  }
+
+  .service {
+    grid-template-columns: 42px minmax(0, 372px) minmax(0, 1fr) 28px;
+    height: 146px;
+    padding: 13px 0 0;
+    color: var(--color-ink-dark);
+  }
+
+  .service:last-child {
+    height: 135px;
+  }
+
+  .service__number {
+    margin-top: 12px;
+    font-size: 17px;
+    line-height: 20px;
+  }
+
+  /* Figma: content starts 13px into the first row, 22px into the others */
+  .service__main {
+    max-width: 316px;
+    margin-top: 17px;
+  }
+
+  .service:first-child .service__main {
+    margin-top: 8px;
+  }
+
+  .service__title {
+    font-size: 31px;
+    line-height: 41px;
+  }
+
+  .service__description {
+    margin-top: 7px;
+    font-size: 12.2px;
+    font-variation-settings: 'opsz' 9;
+    line-height: 17px;
+    color: var(--color-muted);
+  }
+
+  .service__items {
+    margin-top: 30px;
+    font-size: 12px;
+    font-variation-settings: 'opsz' 9;
+    line-height: 20.5px;
+  }
+
+  .service:first-child .service__items {
+    margin-top: 21px;
+  }
+
+  .service__toggle {
+    margin-top: 11.5px;
+  }
+}
+
+/* ---------- Mobile ---------- */
+@media (max-width: 699px) {
+  .services {
+    min-height: 882px;
+    padding-top: 86px;
+  }
+
+  .services__inner {
+    width: min(327px, 100% - 32px);
+  }
+
+  .services__header {
+    flex-direction: column-reverse;
+    justify-content: flex-end;
+    gap: 16px;
+    height: 134px;
+  }
+
+  .services__intro {
+    width: auto;
+    font-size: 14px;
+    line-height: 18px;
+  }
+
+  .services__heading {
+    width: auto;
+    font-size: 30px;
+    line-height: 40px;
+  }
+
+  .services__heading-line--accent {
+    margin: -6px 0;
+  }
+
+  .services__list {
+    margin-top: 33px;
+  }
+
+  .service {
+    grid-template-columns: 28px minmax(0, 1fr) 22px;
+    height: 146px;
+    padding: 5px 0 0;
+  }
+
+  .service:nth-child(3) {
+    height: 131px;
+  }
+
+  .service:last-child {
+    height: 128px;
+  }
+
+  .service__number {
+    grid-row: 1;
+    margin-top: 9px;
+    font-size: 13px;
+    line-height: 18px;
+  }
+
+  .service__main,
+  .service:first-child .service__main {
+    grid-row: 1;
+    grid-column: 2;
+    max-width: 299px;
+    margin-top: 20px;
+  }
+
+  .service__toggle {
+    grid-row: 1;
+    grid-column: 3;
+    margin-top: 8.5px;
+  }
+
+  .service:nth-child(2) .service__number { margin-top: 7px; }
+  .service:nth-child(2) .service__main { margin-top: 18px; }
+  .service:nth-child(2) .service__toggle { margin-top: 6.5px; }
+  .service:nth-child(3) .service__number { margin-top: 10px; }
+  .service:nth-child(3) .service__main { margin-top: 21px; }
+  .service:nth-child(3) .service__toggle { margin-top: 9.5px; }
+  .service:nth-child(4) .service__number { margin-top: 5px; }
+  .service:nth-child(4) .service__main { margin-top: 16px; }
+  .service:nth-child(4) .service__toggle { margin-top: 4.5px; }
+
+  .service__title {
+    font-size: 27px;
+    line-height: 36px;
+  }
+
+  .service__description {
+    max-width: 262px;
+    margin-top: 4px;
+    font-size: 10.2px;
+    line-height: 13px;
+  }
+
+  .service__items,
+  .service:first-child .service__items {
+    grid-column: 2;
+    margin-top: 0;
+  }
+
+  /* Figma runs the list as one line of text: "Item | Item | Item" */
+  .service__items .genie__content {
+    margin-top: 8px;
+    font-size: 10px;
+    line-height: 13px;
+  }
+
+  .service__items li {
+    display: inline;
+  }
+
+  /* Per-row text box widths from the mobile frame */
+  .service:nth-child(1) .service__items { max-width: 219px; }
+  .service:nth-child(2) .service__items { max-width: 306px; }
+  .service:nth-child(4) .service__description { max-width: 240px; }
+
+  .service__items li:not(:last-child)::after {
+    content: ' |';
+    margin-right: 2px;
+  }
+
+  .service__items li.only-compact {
+    display: inline !important;
+  }
+}

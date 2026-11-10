@@ -1,0 +1,52 @@
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="460" height="1580.45" viewBox="0 0 460 1580.45" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Group">
+<path id="Vector" d="M0 0V1580.45H460V0H0Z" fill="url(#paint0_radial_0_325)"/>
+</g>
+<defs>
+<radialGradient id="paint0_radial_0_325" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(88 632.174) scale(526.087 1341.06)">
+<stop stop-color="#EDDCC8"/>
+<stop offset="0.015625" stop-color="#EDDDC9"/>
+<stop offset="0.0273438" stop-color="#EDDDC9"/>
+<stop offset="0.0390625" stop-color="#EEDDCA"/>
+<stop offset="0.0507812" stop-color="#EEDDCA"/>
+<stop offset="0.0625" stop-color="#EEDECB"/>
+<stop offset="0.0742188" stop-color="#EEDECB"/>
+<stop offset="0.0859375" stop-color="#EEDECC"/>
+<stop offset="0.0976562" stop-color="#EEDECC"/>
+<stop offset="0.109375" stop-color="#EEDFCC"/>
+<stop offset="0.121094" stop-color="#EFDFCD"/>
+<stop offset="0.132812" stop-color="#EFDFCE"/>
+<stop offset="0.15625" stop-color="#EFE0CE"/>
+<stop offset="0.179688" stop-color="#EFE1CF"/>
+<stop offset="0.203125" stop-color="#F0E1D0"/>
+<stop offset="0.226562" stop-color="#F0E2D1"/>
+<stop offset="0.25" stop-color="#F0E2D2"/>
+<stop offset="0.273438" stop-color="#F1E3D3"/>
+<stop offset="0.292969" stop-color="#F1E3D4"/>
+<stop offset="0.3125" stop-color="#F1E4D4"/>
+<stop offset="0.332031" stop-color="#F1E4D5"/>
+<stop offset="0.351562" stop-color="#F2E5D6"/>
+<stop offset="0.371094" stop-color="#F2E5D7"/>
+<stop offset="0.390625" stop-color="#F2E6D7"/>
+<stop offset="0.40625" stop-color="#F2E6D8"/>
+<stop offset="0.421875" stop-color="#F3E6D9"/>
+<stop offset="0.4375" stop-color="#F3E7D9"/>
+<stop offset="0.453125" stop-color="#F3E7DA"/>
+<stop offset="0.46875" stop-color="#F3E8DA"/>
+<stop offset="0.484375" stop-color="#F3E8DB"/>
+<stop offset="0.5" stop-color="#F4E8DC"/>
+<stop offset="0.515625" stop-color="#F4E9DC"/>
+<stop offset="0.527344" stop-color="#F4E9DD"/>
+<stop offset="0.539062" stop-color="#F4E9DD"/>
+<stop offset="0.550781" stop-color="#F4EADD"/>
+<stop offset="0.5625" stop-color="#F4EADE"/>
+<stop offset="0.574219" stop-color="#F5EADF"/>
+<stop offset="0.597656" stop-color="#F5EBE0"/>
+<stop offset="0.621094" stop-color="#F5EBE0"/>
+<stop offset="0.644531" stop-color="#F5ECE1"/>
+<stop offset="0.664062" stop-color="#F6ECE2"/>
+<stop offset="0.683594" stop-color="#F6EDE3"/>
+<stop offset="1" stop-color="#F6EDE3"/>
+</radialGradient>
+</defs>
+</svg>

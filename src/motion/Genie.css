@@ -1,0 +1,112 @@
+.genie {
+  position: relative;
+}
+
+.genie__clip {
+  overflow: hidden;
+  /* Room so blurred / skewed glyphs are not cut while streaming in */
+  margin: -12px -16px;
+  padding: 12px 16px;
+}
+
+.genie__content {
+  will-change: transform, filter, opacity;
+}
+
+/* ---------- Cloud puff ---------- */
+.cloud-puff {
+  position: absolute;
+  inset: -30px -40px;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.cloud-puff__blob {
+  position: absolute;
+  top: 0;
+  width: 46%;
+  aspect-ratio: 1.7;
+  border-radius: 50%;
+  background: radial-gradient(
+    closest-side,
+    rgba(255, 253, 249, 0.95) 0%,
+    rgba(250, 243, 234, 0.85) 45%,
+    rgba(237, 220, 200, 0.45) 70%,
+    rgba(237, 220, 200, 0) 100%
+  );
+  filter: blur(10px);
+  opacity: 0;
+  animation: cloud-bloom 1.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.cloud-puff--left .cloud-puff__blob {
+  left: -6%;
+  transform-origin: 0% 30%;
+}
+
+.cloud-puff--right .cloud-puff__blob {
+  right: -6%;
+  transform-origin: 100% 30%;
+}
+
+.cloud-puff__blob--1 {
+  --drift: 6%;
+  top: -6%;
+  width: 34%;
+  animation-delay: 0s;
+}
+
+.cloud-puff__blob--2 {
+  --drift: 52%;
+  top: 8%;
+  animation-delay: 0.08s;
+}
+
+.cloud-puff__blob--3 {
+  --drift: 105%;
+  top: 22%;
+  width: 52%;
+  animation-delay: 0.16s;
+}
+
+.cloud-puff__blob--4 {
+  --drift: 60%;
+  top: 46%;
+  width: 40%;
+  animation-delay: 0.24s;
+}
+
+.cloud-puff__blob--5 {
+  --drift: 130%;
+  top: 40%;
+  width: 30%;
+  animation-delay: 0.3s;
+}
+
+.cloud-puff--right .cloud-puff__blob {
+  --dir: -1;
+}
+
+.cloud-puff--left .cloud-puff__blob {
+  --dir: 1;
+}
+
+@keyframes cloud-bloom {
+  0% {
+    opacity: 0;
+    transform: translateX(0) scale(0.25);
+  }
+  30% {
+    opacity: 0.95;
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(calc(var(--dir) * var(--drift))) scale(1.35);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cloud-puff {
+    display: none;
+  }
+}

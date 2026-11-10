@@ -1,0 +1,734 @@
+/* ---------- Coaching (desktop) ---------- */
+.coaching {
+  position: relative;
+  min-height: 970px;
+}
+
+.coaching__lines {
+  z-index: 0;
+}
+
+.coaching__frame {
+  position: relative;
+  min-height: inherit;
+}
+
+.coaching__lines--desktop {
+  top: -428.5px;
+  left: calc(50% - 720px - 70px);
+}
+
+.coaching__lines--tablet,
+.coaching__lines--mobile {
+  display: none;
+}
+
+.coaching__inner {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 84px;
+  width: min(1216px, 100% - 80px);
+  margin: 0 auto;
+}
+
+@media (min-width: 1200px) {
+  .coaching__inner {
+    left: 3px;
+  }
+}
+
+.coaching__text {
+  flex: 0 1 589px;
+}
+
+.coaching__heading {
+  max-width: 565px;
+  /* Figma centres two 65px lines inside a 108px box */
+  margin: -11px 0;
+  font-family: var(--font-serif);
+  font-size: 48px;
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  line-height: 65px;
+  color: var(--color-brand);
+}
+
+.coaching__story {
+  display: flex;
+  flex-direction: column;
+  gap: 19px;
+  margin-top: 35px;
+}
+
+.coaching__lead {
+  font-size: 23px;
+  font-variation-settings: 'opsz' 14;
+  line-height: 32px;
+  color: var(--color-ink-strong);
+}
+
+.coaching__lead--light {
+  font-weight: 300;
+  color: var(--color-ink);
+}
+
+.coaching__offer {
+  display: flex;
+  flex-direction: column;
+  gap: 19px;
+  margin-top: 44px;
+}
+
+.coaching__body {
+  font-size: 22px;
+  font-weight: 300;
+  font-variation-settings: 'opsz' 14;
+  line-height: 32px;
+  color: #000;
+}
+
+.coaching__focus {
+  font-size: 20px;
+  font-style: italic;
+  font-variation-settings: 'opsz' 14;
+  line-height: 32px;
+  color: var(--color-brand);
+}
+
+.coaching__portrait {
+  position: relative;
+  flex: none;
+  width: 542.414px;
+  height: 825.949px;
+}
+
+.coaching__portrait img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+/* ---------- Tablet ---------- */
+@media (max-width: 1199px) {
+  .coaching {
+    min-height: 1955px;
+  }
+
+  .coaching__lines--desktop {
+    display: none;
+  }
+
+  .coaching__lines--tablet {
+    display: block;
+    top: -312.7px;
+    left: calc(50% - 384px - 66px);
+  }
+
+  .coaching__inner {
+    flex-direction: column-reverse;
+    align-items: stretch;
+    width: min(651px, 100% - 48px);
+    /* Figma tablet column sits 2.5px left of centre */
+    left: -2.5px;
+  }
+
+  .coaching__text {
+    flex: none;
+  }
+
+  .coaching__portrait {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 651 / 826;
+  }
+
+  .coaching__offer {
+    margin-top: 106px;
+  }
+}
+
+/* ---------- Mobile ---------- */
+@media (max-width: 699px) {
+  .coaching {
+    min-height: 1423px;
+  }
+
+  .coaching__lines--tablet {
+    display: none;
+  }
+
+  .coaching__lines--mobile {
+    display: block;
+    top: -186.7px;
+    left: calc(50% - 187.5px - 38.6px);
+  }
+
+  .coaching__inner {
+    align-items: center;
+    gap: 30px;
+    width: min(347px, 100% - 28px);
+  }
+
+  .coaching__text {
+    width: min(321px, 100%);
+  }
+
+  .coaching__portrait {
+    width: min(331px, 100%);
+    aspect-ratio: 331 / 420;
+  }
+
+  .coaching__inner {
+    left: 0;
+  }
+
+  .coaching__heading {
+    margin: -8px 0 -11px;
+    font-size: 33px;
+    line-height: 39px;
+  }
+
+  .coaching__story {
+    margin-top: 20px;
+  }
+
+  .coaching__lead {
+    font-size: 18px;
+    line-height: 26px;
+  }
+
+  .coaching__offer {
+    margin-top: 24px;
+  }
+
+  .coaching__body {
+    font-size: 18px;
+    line-height: 28px;
+  }
+}
+
+/* ---------- Opening sequence (pinned) ---------- */
+.cw {
+  display: inline-block;
+}
+
+/* Full-screen opening image (sized by the timeline) */
+.coaching__reveal {
+  position: absolute;
+  z-index: 6;
+  overflow: hidden;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+/* Video picture at its own aspect ratio; the timeline sizes and pans it */
+.coaching__reveal-media {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  aspect-ratio: 720 / 1098;
+}
+
+.coaching__reveal-poster,
+.coaching__reveal-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.coaching__reveal-poster {
+  object-fit: cover;
+}
+
+/* The poster shows until the first video frame has been drawn */
+.coaching__reveal-canvas {
+  display: block;
+  opacity: 0;
+}
+
+.coaching__reveal-canvas.is-ready {
+  opacity: 1;
+}
+
+/* Shade on the caption side so the cream type reads over the film */
+.coaching__reveal-scrim {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(90deg, rgba(24, 15, 8, 0.72) 0%, rgba(24, 15, 8, 0.4) 30%, rgba(24, 15, 8, 0) 58%),
+    linear-gradient(0deg, rgba(24, 15, 8, 0.45) 0%, rgba(24, 15, 8, 0) 35%);
+}
+
+/* ---------- Captions: editorial, left-aligned, changing per beat ---------- */
+.vcopy {
+  position: absolute;
+  bottom: 11vh;
+  left: max(6vw, 40px);
+  width: min(560px, 46vw);
+  color: var(--color-cream);
+}
+
+.vcopy__meta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 11px;
+  font-variation-settings: 'opsz' 9;
+  letter-spacing: 2.4px;
+  text-transform: uppercase;
+}
+
+.vcopy__count {
+  position: relative;
+  display: inline-block;
+  width: 1.4em;
+  height: 1.15em;
+  overflow: hidden;
+  font-family: var(--font-serif);
+  font-size: 30px;
+  font-style: italic;
+  letter-spacing: 0;
+  line-height: 1.15;
+  color: #ffcdb8;
+}
+
+.vcopy__digit {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.vcopy__total {
+  opacity: 0.7;
+}
+
+/* The thread, travelling with the film */
+.vcopy__track {
+  position: relative;
+  width: 120px;
+  height: 1px;
+  background: rgba(247, 239, 229, 0.3);
+}
+
+.vcopy__fill {
+  position: absolute;
+  inset: 0;
+  background: var(--color-cream);
+}
+
+.vcopy__knot {
+  position: absolute;
+  top: 50%;
+  width: 7px;
+  height: 7px;
+  margin: -3.5px 0 0 -3.5px;
+  border-radius: 50%;
+  background: var(--color-brand);
+  box-shadow: 0 0 0 2px var(--color-cream);
+}
+
+.vcopy__label {
+  opacity: 0.85;
+  white-space: nowrap;
+}
+
+.vcopy__beats {
+  position: relative;
+  /* two title lines + the kicker above them */
+  height: calc(2.2em + 46px);
+  margin-top: 30px;
+  font-family: var(--font-serif);
+  font-size: clamp(44px, 5.4vw, 84px);
+  line-height: 1.02;
+}
+
+.vbeat {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: max-content;
+  max-width: 100vw;
+}
+
+.vbeat__kicker {
+  margin-bottom: 18px;
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-variation-settings: 'opsz' 9;
+  letter-spacing: 1.6px;
+  line-height: 1.4;
+  opacity: 0.85;
+}
+
+.vbeat__title {
+  font-weight: 400;
+  letter-spacing: -0.01em;
+}
+
+/* Each line slides up out of its own mask */
+.vline {
+  display: block;
+  overflow: hidden;
+  padding-bottom: 0.08em;
+}
+
+.vline > span {
+  display: inline-block;
+}
+
+.vline--accent {
+  padding-left: 0.6em;
+  font-style: italic;
+  color: #ffcdb8;
+}
+
+@media (max-width: 1199px) {
+  .coaching__reveal-scrim {
+    background: linear-gradient(0deg, rgba(24, 15, 8, 0.78) 0%, rgba(24, 15, 8, 0.4) 34%, rgba(24, 15, 8, 0) 60%);
+  }
+
+  .vcopy {
+    right: 24px;
+    bottom: 9vh;
+    left: 24px;
+    width: auto;
+  }
+
+  .vcopy__beats {
+    font-size: clamp(38px, 8vw, 60px);
+  }
+}
+
+@media (max-width: 699px) {
+  .vcopy {
+    right: 18px;
+    left: 18px;
+  }
+
+  .vcopy__label {
+    display: none;
+  }
+
+  .vcopy__beats {
+    font-size: 36px;
+  }
+
+  .vbeat__kicker {
+    margin-bottom: 12px;
+    font-size: 11px;
+  }
+}
+
+.coaching__portrait-alt {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+}
+
+/* Until a second photo is supplied: a closer, warmer crop of the portrait */
+.coaching__portrait-alt--crop {
+  object-position: 50% 24%;
+  transform: scale(1.45);
+  transform-origin: 50% 24%;
+  filter: sepia(0.25) saturate(0.95);
+}
+
+.cstage {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 3;
+  width: 589px;
+  height: 100%;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.cstage__headline {
+  position: absolute;
+  top: 0;
+  left: 0;
+  font-family: var(--font-serif);
+  font-size: 72px;
+  font-style: italic;
+  line-height: 1.02;
+  letter-spacing: 0.01em;
+  color: var(--color-brand);
+  white-space: nowrap;
+  perspective: 700px;
+}
+
+.cstage__swap {
+  position: relative;
+  display: block;
+  height: 1.02em;
+}
+
+.cstage__w1,
+.cstage__w2 {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: block;
+  transform-origin: 50% 50% -0.4em;
+  backface-visibility: hidden;
+}
+
+.cstage__fixed {
+  display: block;
+}
+
+.cstage__thumb {
+  display: none;
+}
+
+.cstage__cards {
+  position: absolute;
+  z-index: 1;
+  inset: 230px 0 0;
+}
+
+.cstage__threads {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+}
+
+/* Behind the cards: only visible between them, on the page */
+.cstage__threads--back {
+  z-index: 0;
+}
+
+/* In front of the cards: clipped to each card, shown as stitches */
+.cstage__threads--front {
+  z-index: 2;
+}
+
+.cstage__thread,
+.cstage__stitch {
+  fill: none;
+  stroke-width: 0.9;
+  stroke-linecap: round;
+}
+
+.cstage__thread {
+  filter: drop-shadow(0 0 0.5px rgba(75, 60, 39, 0.5));
+}
+
+/* Running stitch: in front of the fabric, then through it, then in front again */
+.cstage__stitch {
+  stroke-width: 1.1;
+  stroke-dasharray: 9 7;
+}
+
+/* Wide stroke that reveals the stitches in step with the drawn strand */
+.cstage__reveal {
+  fill: none;
+  stroke: #fff;
+  stroke-width: 18;
+  stroke-linecap: round;
+}
+
+.cstage__knot {
+  stroke-width: 1;
+}
+
+.cstage__headline {
+  z-index: 2;
+}
+
+.ccard {
+  position: absolute;
+  width: 165px;
+  height: 205px;
+  perspective: 900px;
+}
+
+.ccard:nth-child(1) { top: 20px; left: 0; }
+.ccard:nth-child(2) { top: 0; left: 200px; }
+.ccard:nth-child(3) { top: 34px; left: 400px; }
+.ccard:nth-child(4) { top: 258px; left: 40px; }
+.ccard:nth-child(5) { top: 240px; left: 238px; }
+.ccard:nth-child(6) { top: 276px; left: 424px; }
+
+.ccard__inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+}
+
+.ccard__face {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  overflow: hidden;
+  padding: 14px 14px 16px;
+  border: 6px solid #fffaf3;
+  background-color: #f3e6d6;
+  background-image: var(--paper);
+  background-position: center;
+  background-size: 180% auto;
+  background-repeat: no-repeat;
+  box-shadow: 0 18px 30px -18px rgba(75, 60, 39, 0.55);
+  backface-visibility: hidden;
+}
+
+.ccard__face--back {
+  border-color: #f7efe5;
+  background-color: var(--color-brand);
+  background-image: none;
+  color: var(--color-cream);
+  transform: rotateY(180deg);
+}
+
+.ccard__face img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.ccard__face--photo .ccard__meta,
+.ccard__face--photo .ccard__title {
+  position: relative;
+  color: #fff;
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.45);
+}
+
+.ccard__meta {
+  font-size: 9px;
+  font-variation-settings: 'opsz' 9;
+  letter-spacing: 1.6px;
+  text-transform: uppercase;
+  color: var(--color-ink);
+}
+
+.ccard__face--back .ccard__meta {
+  color: var(--color-cream);
+}
+
+.ccard__title {
+  font-family: var(--font-serif);
+  font-size: 22px;
+  font-style: italic;
+  line-height: 1.1;
+  color: var(--color-brand);
+}
+
+.ccard__face--back .ccard__title {
+  color: var(--color-cream);
+}
+
+/* Tablet & mobile: the sequence plays on a full-screen stage over the section */
+@media (max-width: 1199px) {
+  .cstage {
+    position: absolute;
+    inset: 0 auto auto 50%;
+    width: 100vw;
+    height: 100vh;
+    height: 100svh;
+    padding: 48px 24px;
+    background: var(--color-cream);
+    transform: translateX(-50%);
+  }
+
+  .cstage__headline {
+    position: relative;
+    font-size: 54px;
+  }
+
+  .cstage__thumb {
+    position: absolute;
+    top: 48px;
+    right: 24px;
+    display: block;
+    width: 170px;
+    aspect-ratio: 574 / 875;
+    overflow: hidden;
+  }
+
+  .cstage__thumb img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .cstage__thumb-alt {
+    opacity: 0;
+  }
+
+  .cstage__cards {
+    inset: 380px 24px 0;
+  }
+
+  .ccard {
+    width: 26%;
+    height: auto;
+    aspect-ratio: 165 / 205;
+  }
+
+  .ccard:nth-child(1) { top: 10px; left: 2%; }
+  .ccard:nth-child(2) { top: 0; left: 37%; }
+  .ccard:nth-child(3) { top: 18px; left: 72%; }
+  .ccard:nth-child(4) { top: 46%; left: 3%; }
+  .ccard:nth-child(5) { top: 43%; left: 36%; }
+  .ccard:nth-child(6) { top: 48%; left: 69%; }
+}
+
+@media (max-width: 699px) {
+  .cstage {
+    padding: 40px 18px;
+  }
+
+  .cstage__headline {
+    font-size: 30px;
+  }
+
+  .cstage__thumb {
+    top: 40px;
+    right: 18px;
+    width: 80px;
+  }
+
+  .cstage__cards {
+    inset: 210px 18px 0;
+  }
+
+  .ccard {
+    width: 30%;
+  }
+
+  .ccard:nth-child(1) { left: 0; }
+  .ccard:nth-child(2) { left: 35%; }
+  .ccard:nth-child(3) { left: 70%; }
+
+  .ccard__face {
+    padding: 8px 8px 10px;
+    border-width: 4px;
+  }
+
+  .ccard__meta {
+    font-size: 6.5px;
+    letter-spacing: 1px;
+  }
+
+  .ccard__title {
+    font-size: 14px;
+  }
+}

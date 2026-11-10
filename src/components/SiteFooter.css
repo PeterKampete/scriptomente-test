@@ -1,0 +1,152 @@
+/* ---------- Footer (desktop) ---------- */
+/* In the desktop frame the footer runs off the bottom edge, so only its
+   rounded top and sides are visible. */
+.site-footer {
+  position: relative;
+  z-index: 1;
+  width: min(1368px, 100% - 40px);
+  min-height: 173px;
+  margin: 0 auto;
+  padding: 51px 64px 32px;
+  border: 1px solid var(--color-brand);
+  border-bottom: 0;
+  border-radius: 100px 100px 0 0;
+}
+
+/* Figma's footer frame sits 4px right of centre (x 40 on the 1440 frame) */
+@media (min-width: 1200px) {
+  .site-footer {
+    left: 4px;
+  }
+}
+
+.site-footer__inner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 90px;
+}
+
+.site-footer__logo {
+  display: block;
+  flex: none;
+}
+
+.site-footer__logo-art {
+  display: block;
+  width: 261px;
+  height: 70px;
+}
+
+.site-footer__legal {
+  width: 409px;
+  /* the Figma string starts with a space */
+  padding-left: 3px;
+  font-size: 12px;
+  font-variation-settings: 'opsz' 14;
+  line-height: 16px;
+  color: var(--color-ink-footer);
+  white-space: nowrap;
+}
+
+.site-footer__legal a {
+  text-underline-offset: 2px;
+}
+
+.site-footer__social {
+  display: flex;
+  gap: 36px;
+}
+
+/* Figma: INSTAGRAM label is left-aligned (18px inset), LINKEDIN is centred */
+.site-footer__link {
+  width: 164px;
+}
+
+.site-footer__link--linkedin {
+  justify-content: center;
+}
+
+/* ---------- Tablet ---------- */
+@media (max-width: 1199px) {
+  .site-footer {
+    width: 100%;
+    min-height: 221px;
+    /* Figma centres the overflowing content inside the 221px frame */
+    padding: 31px 24px 0;
+    border-bottom: 1px solid var(--color-brand);
+  }
+
+  .site-footer__inner {
+    display: grid;
+    grid-template-areas:
+      'logo social'
+      'legal legal';
+    grid-template-rows: 87px auto;
+    align-items: center;
+    justify-content: center;
+    column-gap: 141px;
+    row-gap: 27px;
+  }
+
+  .site-footer__logo {
+    grid-area: logo;
+  }
+
+  .site-footer__logo-art {
+    width: 142px;
+    height: 37.82px;
+  }
+
+  .site-footer__social {
+    grid-area: social;
+    gap: 24px;
+  }
+
+  .site-footer__legal {
+    grid-area: legal;
+    width: auto;
+    text-align: center;
+  }
+
+  .site-footer__link {
+    width: 152px;
+    height: 51px;
+  }
+
+  .site-footer__link--linkedin {
+    width: 144px;
+    font-size: 13px;
+    letter-spacing: 2.6px;
+  }
+}
+
+/* ---------- Mobile ---------- */
+@media (max-width: 699px) {
+  .site-footer {
+    /* The mobile frame's footer runs 10px past the page bottom */
+    min-height: 263px;
+    margin-top: 10px;
+    padding: 44px 16px 0;
+    border-bottom: 0;
+    border-radius: 50px 50px 0 0;
+  }
+
+  .site-footer__inner {
+    grid-template-areas:
+      'logo'
+      'social'
+      'legal';
+    grid-template-rows: auto;
+    justify-items: center;
+    row-gap: 12px;
+  }
+
+  .site-footer__legal {
+    /* 321px in Figma; DM Sans renders a touch wider in browsers */
+    width: 332px;
+    max-width: 100%;
+    margin-top: 36px;
+    white-space: normal;
+  }
+}

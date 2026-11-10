@@ -1,0 +1,141 @@
+/* Figma "Plus": 35px circle, 1px border, 10px padding, "−" glyph 13×2px */
+.toggle {
+  --toggle-size: 35px;
+  --bar-length: 13px;
+  --bar-weight: 2px;
+  position: relative;
+  display: inline-block;
+  flex: none;
+  width: var(--toggle-size);
+  height: var(--toggle-size);
+  padding: 10px;
+  border: 1px solid var(--color-brand);
+  border-radius: 100px;
+  background: var(--color-cream);
+  color: var(--color-brand);
+  cursor: pointer;
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease,
+    box-shadow 0.6s ease;
+}
+
+.toggle__bar {
+  position: absolute;
+  top: calc(50% + 0.5px);
+  left: 50%;
+  width: var(--bar-length);
+  height: var(--bar-weight);
+  background: currentColor;
+  transform: translate(-50%, -50%);
+  transition: transform 0.45s cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+.toggle__bar--v {
+  transform: translate(-50%, -50%) rotate(90deg);
+}
+
+.toggle--expanded .toggle__bar--v {
+  transform: translate(-50%, -50%) rotate(0deg);
+}
+
+.toggle:hover {
+  background: var(--color-brand);
+  color: var(--color-cream);
+}
+
+.toggle:focus-visible {
+  outline: 2px solid var(--color-brand);
+  outline-offset: 3px;
+}
+
+/* Impact when the thread reaches the toggle: the button kicks, a bright flare
+   blooms, and a ring bursts outward; it then settles into a warm halo. */
+.toggle--lit {
+  box-shadow:
+    0 0 14px 3px rgba(221, 74, 54, 0.38),
+    0 0 0 1px rgba(221, 74, 54, 0.25);
+  animation: toggle-impact 1.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.toggle--lit::after {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border: 2px solid var(--color-brand);
+  border-radius: 50%;
+  opacity: 0;
+  pointer-events: none;
+  animation: toggle-ring 1.2s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@keyframes toggle-impact {
+  0% {
+    transform: scale(1);
+    background-color: var(--color-cream);
+    box-shadow:
+      0 0 0 0 rgba(221, 74, 54, 0.85),
+      0 0 0 0 rgba(255, 196, 160, 1);
+  }
+  14% {
+    transform: scale(1.22);
+    background-color: #ffd9c7;
+    box-shadow:
+      0 0 0 6px rgba(221, 74, 54, 0.45),
+      0 0 36px 14px rgba(255, 150, 112, 0.95);
+  }
+  45% {
+    transform: scale(0.96);
+    box-shadow:
+      0 0 0 18px rgba(221, 74, 54, 0),
+      0 0 26px 8px rgba(255, 150, 112, 0.6);
+  }
+  100% {
+    transform: scale(1);
+    background-color: var(--color-cream);
+    box-shadow:
+      0 0 14px 3px rgba(221, 74, 54, 0.38),
+      0 0 0 1px rgba(221, 74, 54, 0.25);
+  }
+}
+
+@keyframes toggle-ring {
+  0% {
+    opacity: 0.9;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(2.8);
+  }
+}
+
+@media (max-width: 1199px) {
+  .toggle {
+    --toggle-size: 28px;
+    --bar-length: 11.3px;
+    --bar-weight: 1.75px;
+    padding: 8px;
+  }
+}
+
+@media (max-width: 699px) {
+  .toggle {
+    --toggle-size: 22px;
+    --bar-length: 7px;
+    --bar-weight: 1px;
+    padding: 6px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .toggle,
+  .toggle__bar {
+    transition: none;
+  }
+
+  .toggle--lit,
+  .toggle--lit::after {
+    animation: none;
+  }
+}

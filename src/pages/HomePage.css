@@ -1,0 +1,9 @@
+.page {
+  position: relative;
+  overflow-x: clip;
+  background: var(--color-cream);
+}
+
+.page > main {
+  position: relative;
+}

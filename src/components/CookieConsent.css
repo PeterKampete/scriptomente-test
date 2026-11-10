@@ -1,0 +1,462 @@
+/* Cookie banner. Mobile: Figma 14:568 / 14:583 (313 wide).
+   Tablet + desktop: Figma 14:517 / 14:531 (675 wide). */
+.cookie {
+  position: fixed;
+  z-index: 90;
+  right: 0;
+  bottom: 16px;
+  left: 0;
+  width: min(313px, calc(100vw - 32px));
+  max-height: calc(100dvh - 32px);
+  margin: 0 auto;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  background: var(--color-cream);
+  color: rgba(75, 60, 39, 0.7);
+  box-shadow:
+    0 186px 52px 0 rgba(0, 0, 0, 0),
+    0 119px 48px 0 rgba(0, 0, 0, 0.01),
+    0 67px 40px 0 rgba(0, 0, 0, 0.05),
+    0 30px 30px 0 rgba(0, 0, 0, 0.09),
+    0 7px 16px 0 rgba(0, 0, 0, 0.1);
+  font-family: var(--font-sans);
+  font-variation-settings: 'opsz' 14;
+  line-height: normal;
+  transform-origin: 50% 100%;
+}
+
+.cookie__frame {
+  overflow: hidden;
+}
+
+.cookie__view {
+  padding: 39px 20px;
+}
+
+.cookie__view--customize {
+  padding: 20.1px 20px 38px;
+}
+
+.cookie__title {
+  margin: 0;
+  color: var(--color-brand);
+  font-family: var(--font-serif);
+  font-size: 20px;
+  font-weight: 400;
+  line-height: normal;
+}
+
+.cookie__title:focus {
+  outline: none;
+}
+
+.cookie__text {
+  margin-top: 18px;
+  font-size: 14px;
+}
+
+.cookie__link {
+  color: var(--color-brand);
+  text-decoration: underline;
+  text-decoration-skip-ink: none;
+  text-underline-position: from-font;
+  transition: color 300ms ease;
+}
+
+.cookie__link:hover {
+  color: #4b3c27;
+}
+
+/* Buttons: 45px, 12px labels with 2.4px tracking */
+.cookie__actions {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.cookie__actions--banner {
+  margin-top: 31px;
+}
+
+.cookie__actions--customize {
+  margin-top: 44px;
+}
+
+.cbtn {
+  --sweep: var(--color-brand);
+  position: relative;
+  z-index: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 45px;
+  padding: 1px 0 0;
+  overflow: hidden;
+  border: 1px solid var(--color-brand);
+  border-radius: 0;
+  background: transparent;
+  color: var(--color-brand);
+  font: inherit;
+  font-size: 12px;
+  letter-spacing: 2.4px;
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    color 320ms cubic-bezier(0.25, 0, 0, 1),
+    transform 400ms cubic-bezier(0.25, 0, 0, 1),
+    box-shadow 400ms cubic-bezier(0.25, 0, 0, 1);
+}
+
+.cbtn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: var(--sweep);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 520ms cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+.cbtn--solid {
+  --sweep: #4b3c27;
+  background: var(--color-brand);
+  color: #fff;
+}
+
+.cbtn:hover,
+.cbtn:focus-visible {
+  color: var(--color-cream);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 26px -14px rgba(221, 74, 54, 0.55);
+}
+
+.cbtn--solid:hover,
+.cbtn--solid:focus-visible {
+  color: #fff;
+  box-shadow: 0 12px 26px -14px rgba(75, 60, 39, 0.6);
+}
+
+.cbtn:hover::before,
+.cbtn:focus-visible::before {
+  transform: scaleX(1);
+}
+
+.cbtn:focus-visible {
+  outline: 2px solid var(--color-brand);
+  outline-offset: 3px;
+}
+
+.cbtn:active {
+  transform: translateY(0) scale(0.985);
+}
+
+/* Back: arrow + tiny tracked label; the arrow nudges left on hover */
+.cookie__back {
+  display: flex;
+  width: fit-content;
+  align-items: center;
+  gap: 5.903px;
+  height: 12px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--color-brand);
+  font: inherit;
+  font-size: 8.854px;
+  letter-spacing: 1.7709px;
+  cursor: pointer;
+}
+
+.cookie__back-arrow {
+  flex: none;
+  transform: rotate(180deg);
+  transition: transform 400ms cubic-bezier(0.25, 0, 0, 1);
+}
+
+.cookie__back:hover .cookie__back-arrow,
+.cookie__back:focus-visible .cookie__back-arrow {
+  transform: rotate(180deg) translateX(4px);
+}
+
+.cookie__back:focus-visible {
+  outline: 1px solid var(--color-brand);
+  outline-offset: 4px;
+}
+
+.cookie__back-arrow--tablet {
+  display: none;
+}
+
+/* Categories */
+.cookie__groups {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 10.9px;
+}
+
+.cgroup {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.cgroup__row {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  height: 45px;
+  border-bottom: 1px solid rgba(76, 61, 39, 0.3);
+  font-size: 12px;
+}
+
+.cgroup__row--essential {
+  height: 62px;
+}
+
+.cgroup__desc {
+  width: 175px;
+}
+
+.cgroup__desc--analytics {
+  width: 218.4px;
+}
+
+.cgroup__desc--marketing {
+  width: 210px;
+}
+
+.cgroup__always {
+  flex: none;
+  width: 77px;
+  margin: 16px -3px 0 0;
+  color: #dc4a37;
+  text-align: center;
+}
+
+/* Switch (mobile 36.4 × 17.6) */
+.cswitch {
+  --w: 36.4px;
+  --h: 17.6px;
+  --k: 14.4px;
+  --p: 1.6px;
+  --travel: calc(var(--w) - var(--k) - 2 * var(--p));
+  position: relative;
+  flex: none;
+  width: var(--w);
+  height: var(--h);
+  margin-top: 10.2px;
+  padding: 0;
+  border: 0;
+  border-radius: 80px;
+  background: #d2d5da;
+  cursor: pointer;
+  transition:
+    background-color 380ms cubic-bezier(0.25, 0, 0, 1),
+    box-shadow 380ms ease;
+}
+
+.cswitch:hover {
+  background: #c5c9cf;
+}
+
+.cswitch--on,
+.cswitch--on:hover {
+  background: var(--color-brand);
+}
+
+.cswitch:focus-visible {
+  outline: 2px solid var(--color-brand);
+  outline-offset: 3px;
+}
+
+.cswitch__knob {
+  position: absolute;
+  top: var(--p);
+  left: var(--p);
+  width: var(--k);
+  height: var(--k);
+  border-radius: 80px;
+  background: #fff;
+  box-shadow: 0 1.6px 3.2px 0 rgba(39, 39, 39, 0.1);
+  transition:
+    transform 560ms cubic-bezier(0.34, 1.56, 0.64, 1),
+    width 220ms cubic-bezier(0.25, 0, 0, 1);
+}
+
+.cswitch--on .cswitch__knob {
+  transform: translateX(var(--travel));
+}
+
+/* Press: the knob squashes toward its next position */
+.cswitch:active .cswitch__knob {
+  width: calc(var(--k) + 5px);
+}
+
+.cswitch--on:active .cswitch__knob {
+  transform: translateX(calc(var(--travel) - 5px));
+}
+
+.cswitch__ripple {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+}
+
+.cswitch--on .cswitch__ripple {
+  animation: cswitch-ripple 750ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@keyframes cswitch-ripple {
+  from {
+    box-shadow: 0 0 0 0 rgba(221, 74, 54, 0.45);
+  }
+  to {
+    box-shadow: 0 0 0 10px rgba(221, 74, 54, 0);
+  }
+}
+
+/* ---------- Tablet + desktop (675 card) ---------- */
+@media (min-width: 700px) {
+  .cookie {
+    bottom: 24px;
+    width: min(675px, calc(100vw - 48px));
+    max-height: calc(100dvh - 48px);
+  }
+
+  .cookie__view {
+    padding: 40px 32px 39px 40px;
+  }
+
+  .cookie__view--customize {
+    display: grid;
+    grid-template-areas:
+      'groups groups'
+      'back actions';
+    grid-template-columns: auto 1fr;
+    padding: 40px;
+  }
+
+  .cookie__title {
+    font-size: 25px;
+  }
+
+  .cookie__actions {
+    flex-direction: row;
+  }
+
+  .cookie__actions--banner {
+    margin-top: 23px;
+  }
+
+  .cbtn {
+    width: 185px;
+    padding: 0 0 2px 2px;
+  }
+
+  .cookie__groups {
+    grid-area: groups;
+    gap: 10px;
+    margin-top: 0;
+  }
+
+  .cgroup {
+    gap: 18px;
+  }
+
+  .cgroup__row {
+    height: 36px;
+    font-size: 16px;
+  }
+
+  .cgroup__row--essential {
+    height: 63px;
+  }
+
+  .cgroup__desc,
+  .cgroup__desc--analytics,
+  .cgroup__desc--marketing {
+    width: 503px;
+    max-width: calc(100% - 70px);
+  }
+
+  .cgroup__always {
+    width: auto;
+    margin: 0;
+    font-size: 14px;
+    text-align: right;
+  }
+
+  .cookie__back {
+    grid-area: back;
+    align-self: start;
+    gap: 8px;
+    height: 16px;
+    margin-top: 52px;
+    font-size: 12px;
+    letter-spacing: 2.4px;
+  }
+
+  .cookie__back-arrow--tablet {
+    display: block;
+  }
+
+  .cookie__back-arrow--mobile {
+    display: none;
+  }
+
+  .cookie__actions--customize {
+    grid-area: actions;
+    justify-content: flex-end;
+    margin-top: 37px;
+  }
+
+  .cswitch {
+    --w: 40px;
+    --h: 22px;
+    --k: 18px;
+    --p: 2px;
+    margin-top: 0;
+    border-radius: 100px;
+  }
+
+  .cswitch__knob {
+    border-radius: 100px;
+    box-shadow: 0 2px 4px 0 rgba(39, 39, 39, 0.1);
+  }
+}
+
+/* Desktop: the card rests in the bottom-right corner */
+@media (min-width: 1200px) {
+  .cookie {
+    right: 40px;
+    bottom: 40px;
+    left: auto;
+    width: 675px;
+    margin: 0;
+    transform-origin: 100% 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cbtn,
+  .cbtn::before,
+  .cswitch,
+  .cswitch__knob,
+  .cookie__back-arrow {
+    transition: none;
+  }
+
+  .cswitch--on .cswitch__ripple {
+    animation: none;
+  }
+
+  .cbtn:hover,
+  .cbtn:focus-visible {
+    transform: none;
+  }
+}

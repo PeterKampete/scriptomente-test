@@ -1,0 +1,166 @@
+/* Positions are percentages of the full page, copied from the Figma frames. */
+.backdrop {
+  position: absolute;
+  /* Skip the intro's pinned scroll runway so the Figma percentages still apply */
+  inset: var(--intro-space, 0px) 0 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.backdrop > * {
+  position: absolute;
+}
+
+/* Soft glows: radial fill masked by a blurred rectangle + blurred oval */
+.backdrop__glow {
+  background: url('../assets/figma/glow-fill-right.svg') center / 100% 100% no-repeat;
+  -webkit-mask-image: url('../assets/figma/glow-mask-rect.svg'), url('../assets/figma/glow-mask-oval.svg');
+  mask-image: url('../assets/figma/glow-mask-rect.svg'), url('../assets/figma/glow-mask-oval.svg');
+  -webkit-mask-size: calc(100% + 56px) calc(100% + 56px), calc(134.78% + 56px) calc(100% + 56px);
+  mask-size: calc(100% + 56px) calc(100% + 56px), calc(134.78% + 56px) calc(100% + 56px);
+  -webkit-mask-position: left -28px top -28px, right -28px top -28px;
+  mask-position: left -28px top -28px, right -28px top -28px;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+}
+
+.backdrop__glow--upper-left {
+  inset: 16% 69.65% 62.97% -1.6%;
+  background-image: url('../assets/figma/glow-fill-left.svg');
+}
+
+.backdrop__glow--right {
+  inset: 39.22% -9.37% 39.75% 77.43%;
+  -webkit-mask-position: left -28px top -28px, left -28px top -28px;
+  mask-position: left -28px top -28px, left -28px top -28px;
+}
+
+.backdrop__glow--lower-left {
+  inset: 65.05% 75.69% 13.93% -7.64%;
+  opacity: 0.42;
+  transform: scaleX(-1);
+}
+
+.backdrop__glow--mobile-right {
+  display: none;
+}
+
+/* Watercolour stain beside the services list */
+.backdrop__watercolor {
+  inset: 18.81% -4.05% 73.16% 73.95%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  mix-blend-mode: darken;
+}
+
+.backdrop__watercolor-art {
+  width: 96%;
+  height: 97.5%;
+  opacity: 0.6;
+  background: url('../assets/figma/watercolor.png') center / 100% 100% no-repeat;
+  transform: rotate(-177.96deg) skewX(0.35deg);
+}
+
+.backdrop__watercolor-fade {
+  inset: 19.03% 0.74% 72.93% 69.17%;
+  background: url('../assets/figma/watercolor-fade.svg') center / 100% 100% no-repeat;
+}
+
+/* Watercolour stain beside the experience timeline */
+.backdrop__watermark {
+  inset: 38.87% 78.24% 53.1% -8.33%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.backdrop__watermark-art {
+  position: relative;
+  width: 96%;
+  height: 97.5%;
+  transform: rotate(-177.96deg) skewX(0.35deg);
+}
+
+.backdrop__watermark-art::before,
+.backdrop__watermark-art::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+}
+
+.backdrop__watermark-art::before {
+  background: url('../assets/figma/watermark.png') center / cover no-repeat;
+  opacity: 0.7;
+  mix-blend-mode: darken;
+}
+
+.backdrop__watermark-art::after {
+  background: linear-gradient(42.38deg, rgba(247, 239, 229, 0) 29.087%, rgba(247, 239, 229, 0.7) 51.538%);
+}
+
+/* ---------- Tablet ---------- */
+@media (max-width: 1199px) {
+  .backdrop__glow--right {
+    inset: 38.87% -7.99% 40.1% 76.04%;
+  }
+
+  .backdrop__watercolor-art {
+    background-image: url('../assets/figma/watercolor-tablet.png');
+    transform: rotate(-176.1deg) skewX(3.01deg);
+  }
+
+  .backdrop__watermark {
+    inset: 38.88% 62.02% 53.09% -13.28%;
+  }
+
+  .backdrop__watermark-art {
+    width: 97.6%;
+    height: 95.8%;
+    transform: scaleX(-1) rotate(176.17deg) skewX(2.93deg);
+  }
+
+  .backdrop__watermark-art::before {
+    background-image: url('../assets/figma/watermark-tablet.png');
+    background-position: bottom;
+  }
+
+  .backdrop__watermark-art::after {
+    background: linear-gradient(44.58deg, rgba(247, 239, 229, 0) 29.087%, rgba(247, 239, 229, 0.7) 51.538%);
+  }
+}
+
+/* ---------- Mobile ---------- */
+@media (max-width: 699px) {
+  .backdrop__glow--mobile-right {
+    display: block;
+    inset: 36.07% -18.34% 42.9% 86.4%;
+    opacity: 0.7;
+    transform: scaleX(-1);
+  }
+
+  .backdrop__watercolor-art {
+    background-image: url('../assets/figma/watercolor-mobile.png');
+    transform: rotate(-173.23deg) skewX(6.26deg);
+  }
+
+  .backdrop__watermark {
+    inset: 36.08% 30.64% 55.56% -8.53%;
+    opacity: 0.8;
+  }
+
+  .backdrop__watermark-art {
+    width: 98.5%;
+    height: 93.7%;
+    transform: scaleX(-1) rotate(173.23deg) skewX(6.26deg);
+  }
+
+  .backdrop__watermark-art::before {
+    background-image: url('../assets/figma/watermark-mobile.png');
+  }
+
+  .backdrop__watermark-art::after {
+    background: linear-gradient(48.64deg, rgba(247, 239, 229, 0) 29.087%, rgba(247, 239, 229, 0.7) 51.538%);
+  }
+}
