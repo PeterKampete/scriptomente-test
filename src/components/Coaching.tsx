@@ -41,6 +41,16 @@ function coverAt(W: number, H: number, focusY: number, focusX = 0.5) {
   return { width, height, x, y }
 }
 
+/** Height of the viewport with mobile toolbars collapsed (CSS 100lvh). */
+function largeViewportHeight() {
+  const probe = document.createElement('div')
+  probe.style.cssText = 'position:fixed;top:0;left:0;width:0;height:100vh;height:100lvh;visibility:hidden;pointer-events:none'
+  document.body.appendChild(probe)
+  const height = probe.offsetHeight
+  probe.remove()
+  return Math.max(height, window.innerHeight)
+}
+
 // Captions that change while the video plays (all taken from the page copy)
 const VIDEO_BEATS = [
   { kicker: 'Berlin · the Netherlands · Doha · Milan · Dublin', lines: ['Ten moves in', 'ten years.'] },
@@ -221,13 +231,17 @@ export function Coaching() {
       // Geometry is relative to the inner box as it sits once pinned.
       const reveal = q('.coaching__reveal')[0] as HTMLElement
       const pinGap = () => (desktop ? Math.max(PIN_TOP_GAP, (window.innerHeight - inner.offsetHeight) / 2) : 0)
-      const ib = box(inner)
-      const slot = { left: tg.left - ib.left, top: tg.top - ib.top, width: tg.width, height: tg.height }
-      const fullScreen = () => ({ left: -ib.left, top: -pinGap(), width: window.innerWidth, height: window.innerHeight })
+      const fr = box(frame)
+      const slot = { left: tg.left - fr.left, top: tg.top - fr.top, width: tg.width, height: tg.height }
+      // Full-bleed: the frame's own width, and the *large* viewport height so
+      // nothing shows beneath it when mobile browser toolbars collapse
+      const screenW = () => frame.clientWidth
+      const screenH = () => largeViewportHeight()
+      const fullScreen = () => ({ left: 0, top: -pinGap(), width: screenW(), height: screenH() })
       gsap.set(reveal, { ...fullScreen(), autoAlpha: 1 })
       const media = q('.coaching__reveal-media')[0] as HTMLElement
-      const panFrom = () => coverAt(window.innerWidth, window.innerHeight, PAN_FROM, desktop ? 0.5 : 0.46)
-      const panTo = () => coverAt(window.innerWidth, window.innerHeight, PAN_TO, desktop ? 0.5 : 0.46)
+      const panFrom = () => coverAt(screenW(), screenH(), PAN_FROM, desktop ? 0.5 : 0.46)
+      const panTo = () => coverAt(screenW(), screenH(), PAN_TO, desktop ? 0.5 : 0.46)
       gsap.set(media, panFrom())
 
       gsap.set(stage, { autoAlpha: 1 })
@@ -448,53 +462,6 @@ export function Coaching() {
           )}
         </ParallaxImage>
 
-        {/* Opening image: full-screen as the section arrives, then settles */}
-        {!isReducedMotion && (
-          <div className="coaching__reveal" aria-hidden="true">
-            <div className="coaching__reveal-media">
-              <img className="coaching__reveal-poster" src={portrait} alt="" />
-              <canvas className="coaching__reveal-canvas" ref={canvasRef} />
-            </div>
-            <div className="coaching__reveal-scrim" />
-            <div className="vcopy">
-              <div className="vcopy__meta">
-                <span className="vcopy__count">
-                  {VIDEO_BEATS.map((_, i) => (
-                    <span key={i} className="vcopy__digit">
-                      {String(i + 1).padStart(2, '0')}
-                    </span>
-                  ))}
-                </span>
-                <span className="vcopy__total">/ {String(VIDEO_BEATS.length).padStart(2, '0')}</span>
-                <span className="vcopy__track">
-                  <span className="vcopy__fill" />
-                  <span className="vcopy__knot" />
-                </span>
-                <span className="vcopy__label">Career &amp; Life Transition Coaching</span>
-              </div>
-              <div className="vcopy__beats">
-                {VIDEO_BEATS.map((beat, i) => (
-                  <div key={i} className="vbeat">
-                    <p className="vbeat__kicker">
-                      <span className="vline">
-                        <span>{beat.kicker}</span>
-                      </span>
-                    </p>
-                    <p className="vbeat__title">
-                      <span className="vline">
-                        <span>{beat.lines[0]}</span>
-                      </span>
-                      <span className="vline vline--accent">
-                        <span>{beat.lines[1]}</span>
-                      </span>
-                    </p>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        )}
-
         {/* Opening sequence: "Career Coaching" → "Life Transition Coaching" */}
         {!isReducedMotion && (
           <div className="cstage" aria-hidden="true">
@@ -555,6 +522,55 @@ export function Coaching() {
           </div>
         )}
       </div>
+
+        {/* Opening image: full-screen as the section arrives, then settles.
+          It lives on the full-width pinned frame, so full-bleed needs no
+          measuring against the centred column. */}
+        {!isReducedMotion && (
+          <div className="coaching__reveal" aria-hidden="true">
+            <div className="coaching__reveal-media">
+              <img className="coaching__reveal-poster" src={portrait} alt="" />
+              <canvas className="coaching__reveal-canvas" ref={canvasRef} />
+            </div>
+            <div className="coaching__reveal-scrim" />
+            <div className="vcopy">
+              <div className="vcopy__meta">
+                <span className="vcopy__count">
+                  {VIDEO_BEATS.map((_, i) => (
+                    <span key={i} className="vcopy__digit">
+                      {String(i + 1).padStart(2, '0')}
+                    </span>
+                  ))}
+                </span>
+                <span className="vcopy__total">/ {String(VIDEO_BEATS.length).padStart(2, '0')}</span>
+                <span className="vcopy__track">
+                  <span className="vcopy__fill" />
+                  <span className="vcopy__knot" />
+                </span>
+                <span className="vcopy__label">Career &amp; Life Transition Coaching</span>
+              </div>
+              <div className="vcopy__beats">
+                {VIDEO_BEATS.map((beat, i) => (
+                  <div key={i} className="vbeat">
+                    <p className="vbeat__kicker">
+                      <span className="vline">
+                        <span>{beat.kicker}</span>
+                      </span>
+                    </p>
+                    <p className="vbeat__title">
+                      <span className="vline">
+                        <span>{beat.lines[0]}</span>
+                      </span>
+                      <span className="vline vline--accent">
+                        <span>{beat.lines[1]}</span>
+                      </span>
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </section>
   )

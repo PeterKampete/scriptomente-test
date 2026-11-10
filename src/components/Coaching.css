@@ -397,6 +397,8 @@
   .vcopy {
     right: 24px;
     bottom: 9vh;
+    /* The film runs under the browser's bottom toolbar; keep the captions above it */
+    bottom: calc(100lvh - 100svh + 6svh);
     left: 24px;
     width: auto;
   }
@@ -639,8 +641,9 @@
     position: absolute;
     inset: 0 auto auto 50%;
     width: 100vw;
+    /* Large viewport: still covers everything once mobile toolbars collapse */
     height: 100vh;
-    height: 100svh;
+    height: 100lvh;
     padding: 48px 24px;
     background: var(--color-cream);
     transform: translateX(-50%);
